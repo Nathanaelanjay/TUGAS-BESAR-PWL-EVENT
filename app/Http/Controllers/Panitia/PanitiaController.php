@@ -1,0 +1,23 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+
+class PanitiaController extends Controller
+{
+    public function index()
+    {
+        return view('panitia.dashboard');
+    }
+
+    public function pesertaIndex()
+    {
+        return view('panitia.peserta');
+    }
+
+    public function presensiIndex()
+    {
+        return view('panitia.presensi');
+    }
+}
