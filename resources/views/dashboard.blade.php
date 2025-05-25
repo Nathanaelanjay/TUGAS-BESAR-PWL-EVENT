@@ -1,4 +1,3 @@
-<!-- resources/views/member/dashboard.blade.php -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,9 +11,9 @@
     <header class="bg-gray-800 shadow-md">
         <div class="container mx-auto px-6 py-4 flex justify-between items-center">
             <h1 class="text-xl font-bold text-white">EventHub</h1>
+            <a href="{{ route('login') }}" class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700  transition">Login</a>
         </div>
     </header>
-
     <!-- Main Content -->
     <main class="container mx-auto px-6 py-8">
         <!-- Welcome -->
@@ -22,8 +21,8 @@
             <h2 class="text-3xl font-bold text-white mb-2">Selamat Datang di EventHub!</h2>
             <p class="text-gray-400">Temukan dan daftar event seru yang diadakan oleh komunitas kami.</p>
         </div>
+
         <!-- Grid of Event Cards -->
-         
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             @foreach ($events as $event)
             <div class="bg-gray-800 rounded-lg shadow-md overflow-hidden">

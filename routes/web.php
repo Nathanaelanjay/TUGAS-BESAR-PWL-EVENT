@@ -1,13 +1,18 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Models\Event;
+
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Guest\GuestController;
 use App\Http\Controllers\PanitiaController;
+use App\Http\Controllers\Member\DashboardController;
 
 // Redirect root to login
 Route::get('/', function () {
-    return redirect('/login');
+    $events = Event::all();
+    return view('dashboard', compact('events'));
 });
 
 // Optional: unauthorized page
@@ -20,32 +25,34 @@ Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [LoginController::class, 'login']);
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
-// Dashboard routes (basic placeholder views)
-Route::get('/guest/dashboard', function () {
-    return view('guest.dashboard');
-})->middleware('auth');
+// Register routes
+Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('register');
+Route::post('/register', [RegisterController::class, 'register']);
+Route::get('/register', function () {
+    return view('auth.register'); // buat file resources/views/auth/register.blade.php
+})->name('register');
+Route::get('/login', [App\Http\Controllers\Auth\LoginController::class, 'showLoginForm'])->name('login');
 
-Route::get('/admin/dashboard', function () {
-    return view('admin.dashboard');
+// Member routes
+Route::get('/member/dashboard', function () {
+    return view('member.dashboard');
 })->middleware('auth');
+Route::get('/member/dashboard', function () {
+    $events = Event::all();
+    return view('dashboard', compact('events'));
+});
 
+// Panitia routes
 Route::get('/panitia/dashboard', function () {
     return view('panitia.dashboard');
 })->middleware('auth');
 
+// Admin routes
+Route::get('/admin/dashboard', function () {
+    return view('admin.dashboard');
+})->middleware('auth');
+
+// Tim Keuangan routes
 Route::get('/timkeuangan/dashboard', function () {
     return view('timkeuangan.dashboard');
 })->middleware('auth');
-
-Route::get('/member/dashboard', function () {
-    return view('member.dashboard');
-})->middleware('auth');
-
-// Guest routes
-Route::middleware(['auth'])->group(function () {
-    Route::get('/event', [GuestController::class, 'event'])->name('guest.event');
-    Route::get('/registrasi', [GuestController::class, 'registrasi'])->name('guest.registrasi');
-});
-
-
-
