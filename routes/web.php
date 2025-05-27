@@ -6,8 +6,11 @@ use App\Models\Event;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Guest\GuestController;
-use App\Http\Controllers\PanitiaController;
+use App\Http\Controllers\Panitia\PanitiaController;
+use App\Http\Controllers\Panitia\EventController;
 use App\Http\Controllers\Member\DashboardController;
+
+
 
 // Redirect root to login
 Route::get('/', function () {
@@ -39,13 +42,28 @@ Route::get('/member/dashboard', function () {
 })->middleware('auth');
 Route::get('/member/dashboard', function () {
     $events = Event::all();
-    return view('dashboard', compact('events'));
+    return view('/member/dashboard', compact('events'));
 });
 
 // Panitia routes
 Route::get('/panitia/dashboard', function () {
     return view('panitia.dashboard');
 })->middleware('auth');
+Route::middleware(['auth'])->group(function () {
+    Route::get('/panitia/events/create', [EventController::class, 'create'])->name('events.create');
+    Route::post('/panitia/events/store', [EventController::class, 'store'])->name('panitia.event.store');
+});
+Route::get('/panitia/dashboard', function () {
+    $events = Event::all();
+    return view('/panitia/dashboard', compact('events'));
+});
+Route::get('/panitia/event', function () {
+    return view('panitia.event');
+})->name('panitia.events.create')->middleware('auth');
+
+Route::middleware('auth')->group(function () {
+    Route::post('/panitia/event/store', [EventController::class, 'store'])->name('panitia.event.store');
+});
 
 // Admin routes
 Route::get('/admin/dashboard', function () {

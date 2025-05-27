@@ -6,7 +6,6 @@
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gray-900 text-gray-100">
-
     <!-- Header -->
     <header class="bg-gray-800 shadow-md">
         <div class="container mx-auto px-6 py-4 flex justify-between items-center">

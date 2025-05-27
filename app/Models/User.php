@@ -12,7 +12,7 @@ class User extends Authenticatable
 
     protected $table = 'users';
     protected $primaryKey = 'id_user';
-    public $timestamps = false;
+    const UPDATED_AT = null; 
 
     protected $fillable = [
         'nama',
@@ -25,13 +25,9 @@ class User extends Authenticatable
         'password',
     ];
 
-    protected function casts(): array
-    {
-        return [
-            'password' => 'hashed',
-            'created_at' => 'datetime',
-        ];
-    }
+    protected $casts = [
+        'created_at' => 'datetime',
+    ];
 
     // Relationships
     public function registrasiEvents()

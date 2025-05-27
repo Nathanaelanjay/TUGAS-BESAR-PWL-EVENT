@@ -34,7 +34,7 @@ class LoginController extends Controller
                 case 'admin':
                     return redirect('/admin/dashboard');
                 case 'guest':
-                    return redirect('/guest/dashboard');
+                    return redirect('/dashboard');
                 case 'member':
                     return redirect('/member/dashboard');
                 case 'tim_keuangan':
