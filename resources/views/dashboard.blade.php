@@ -32,7 +32,9 @@
                         📅 {{ \Carbon\Carbon::parse($event->tanggal_event)->format('d M Y') }} <br>
                         🕒 {{ \Carbon\Carbon::parse($event->waktu_event)->format('H:i') }} <br>
                         📍 {{ $event->lokasi }} <br>
-                        🎤 {{ $event->narasumber }}
+                        🎤 {{ $event->narasumber }} <br>
+                        💰 Rp{{ number_format($event->biaya, 0, ',', '.') }} <br>
+                        👥 Kuota: {{ $event->kuota }} orang
                     </p>
                     <a href="#" class="mt-4 inline-block bg-gray-700 text-white px-3 py-2 rounded hover:bg-gray-600 transition text-sm">Lihat Detail</a>
                 </div>

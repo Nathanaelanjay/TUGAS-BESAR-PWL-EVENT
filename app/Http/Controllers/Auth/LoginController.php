@@ -38,7 +38,7 @@ class LoginController extends Controller
                 case 'member':
                     return redirect('/member/dashboard');
                 case 'tim_keuangan':
-                    return redirect('/keuangan/dashboard');
+                    return redirect('/timkeuangan/dashboard');
                 case 'panitia':
                     return redirect('/panitia/dashboard');
                 default:

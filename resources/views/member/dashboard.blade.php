@@ -11,6 +11,13 @@
     <header class="bg-gray-800 shadow-md">
         <div class="container mx-auto px-6 py-4 flex justify-between items-center">
             <h1 class="text-xl font-bold text-white">EventHub</h1>
+                <form method="POST" action="{{ route('logout') }}">
+                @csrf
+                <button type="submit"
+                        class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-md transition">
+                    Logout
+                </button>
+            </form>
         </div>
     </header>
 
@@ -26,16 +33,25 @@
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             @foreach ($events as $event)
             <div class="bg-gray-800 rounded-lg shadow-md overflow-hidden">
-                <img src="{{ $event->poster_event ?? 'https://via.placeholder.com/400x200' }}" alt="Poster Event" class="w-full h-48 object-cover">
+                <img src="{{ $event->poster_event ? asset('storage/' . ltrim($event->poster_event, '/')) : 'https://via.placeholder.com/400x200' }}" alt="Poster Event" class="w-full h-48 object-cover">
                 <div class="p-4">
                     <h3 class="text-lg font-semibold text-white">{{ $event->nama_event }}</h3>
                     <p class="text-gray-400 text-sm mt-1">
                         📅 {{ \Carbon\Carbon::parse($event->tanggal_event)->format('d M Y') }} <br>
                         🕒 {{ \Carbon\Carbon::parse($event->waktu_event)->format('H:i') }} <br>
                         📍 {{ $event->lokasi }} <br>
-                        🎤 {{ $event->narasumber }}
+                        🎤 {{ $event->narasumber }} <br>
+                        💰 Rp{{ number_format($event->biaya, 0, ',', '.') }} <br>
+                        👥 Kuota: {{ $event->kuota }} orang
                     </p>
-                    <a href="#" class="mt-4 inline-block bg-gray-700 text-white px-3 py-2 rounded hover:bg-gray-600 transition text-sm">Lihat Detail</a>
+                    <!-- Tombol-tombol -->
+                    <div class="mt-4 flex justify-between">
+                        <a href="#" class="bg-blue-600 hover:bg-blue-700 text-white px-3 py-2 rounded transition text-sm">Lihat Detail</a>
+                       <a href="{{ route('registerevent.form', $event->id_event) }}"
+                        class="bg-red-600 hover:bg-red-700 text-white px-3 py-2 rounded transition text-sm">
+                            Daftar Sekarang
+                        </a>
+                    </div>
                 </div>
             </div>
             @endforeach

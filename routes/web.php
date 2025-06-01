@@ -9,7 +9,9 @@ use App\Http\Controllers\Guest\GuestController;
 use App\Http\Controllers\Panitia\PanitiaController;
 use App\Http\Controllers\Panitia\EventController;
 use App\Http\Controllers\Member\DashboardController;
-
+use App\Http\Controllers\Member\MemberController;
+use App\Http\Controllers\Member\RegisterEventController;
+use App\Http\Controllers\TimKeuangan\TimKeuanganController;
 
 
 // Redirect root to login
@@ -44,6 +46,14 @@ Route::get('/member/dashboard', function () {
     $events = Event::all();
     return view('/member/dashboard', compact('events'));
 });
+Route::get('/member/events/{id}/register', [MemberController::class, 'register'])->name('member.events.register');
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/member/registerevent/{id}', [RegisterEventController::class, 'showForm'])->name('registerevent.form');
+    Route::post('/member/registerevent/{id}', [RegisterEventController::class, 'submit'])->name('registerevent.submit');
+});
+Route::get('/member/dashboard', [DashboardController::class, 'index'])->name('member.dashboard');
+
 
 // Panitia routes
 Route::get('/panitia/dashboard', function () {
@@ -74,3 +84,9 @@ Route::get('/admin/dashboard', function () {
 Route::get('/timkeuangan/dashboard', function () {
     return view('timkeuangan.dashboard');
 })->middleware('auth');
+Route::get('/timkeuangan/dashboard', [TimKeuanganController::class, 'index'])
+    ->name('timkeuangan.dashboard');
+Route::get('/timkeuangan/registrasi/{id}', [TimKeuanganController::class, 'showRegistrasi'])
+    ->name('timkeuangan.registrasi');
+Route::post('/timkeuangan/registrasi/acc/{id}', [TimKeuanganController::class, 'accPembayaran'])->name('timkeuangan.accPembayaran');
+Route::post('/timkeuangan/registrasi/tolak/{id}', [TimKeuanganController::class, 'tolakPembayaran'])->name('timkeuangan.tolakPembayaran');
