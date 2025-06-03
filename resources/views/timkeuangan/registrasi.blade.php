@@ -50,7 +50,16 @@
                                     @endif
                                 </td>
                                 <td class="px-4 py-2 space-x-2">
-                                    @if($item->status_pembayaran != 2 && $item->status_pembayaran != 3)
+                                    @if($item->status_pembayaran == 2)
+                                        @if($item->qr_code_path)
+                                            <a href="{{ asset('storage/' . $item->qr_code_path) }}" download
+                                            class="text-blue-400 underline hover:text-blue-600">
+                                                Download QR Code
+                                            </a>
+                                        @endif
+                                    @elseif($item->status_pembayaran == 3)
+                                        <span class="text-red-500">Registrasi ditolak</span>
+                                    @else
                                         <form action="{{ route('timkeuangan.accPembayaran', ['id' => $item->id ?? $item->id_registrasi ?? '' ]) }}" method="POST" class="inline">
                                             @csrf
                                             <button type="submit"
@@ -66,10 +75,6 @@
                                                 Tolak
                                             </button>
                                         </form>
-                                    @elseif($item->status_pembayaran == 2)
-                                        <span class="text-green-500">Registrasi diterima</span>
-                                    @elseif($item->status_pembayaran == 3)
-                                        <span class="text-red-500">Registrasi ditolak</span>
                                     @endif
                                 </td>
                             </tr>

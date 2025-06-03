@@ -55,6 +55,7 @@ Route::middleware(['auth'])->group(function () {
 Route::get('/member/dashboard', [DashboardController::class, 'index'])->name('member.dashboard');
 
 
+
 // Panitia routes
 Route::get('/panitia/dashboard', function () {
     return view('panitia.dashboard');
@@ -90,3 +91,4 @@ Route::get('/timkeuangan/registrasi/{id}', [TimKeuanganController::class, 'showR
     ->name('timkeuangan.registrasi');
 Route::post('/timkeuangan/registrasi/acc/{id}', [TimKeuanganController::class, 'accPembayaran'])->name('timkeuangan.accPembayaran');
 Route::post('/timkeuangan/registrasi/tolak/{id}', [TimKeuanganController::class, 'tolakPembayaran'])->name('timkeuangan.tolakPembayaran');
+

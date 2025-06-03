@@ -5,6 +5,11 @@ namespace App\Http\Controllers\TimKeuangan;
 use App\Http\Controllers\Controller;
 use App\Models\Event;
 use App\Models\RegistrasiEvent;
+use Endroid\QrCode\Builder\Builder;
+use Endroid\QrCode\Encoding\Encoding;
+use Endroid\QrCode\Writer\PngWriter;
+use Illuminate\Support\Facades\Storage;
+
 
 class TimKeuanganController extends Controller
 {
@@ -22,15 +27,33 @@ class TimKeuanganController extends Controller
         return view('timkeuangan.registrasi', compact('event', 'registrasi'));
     }
 
-    public function accPembayaran($id)
+   public function accPembayaran($id)
     {
         $registrasi = RegistrasiEvent::findOrFail($id);
         $registrasi->status_pembayaran = 2;
+
+        // Generate QR code content
+        $qrData = url('/presensi/' . $registrasi->id);
+
+        // Buat QR code
+        $result = Builder::create()
+            ->writer(new PngWriter())
+            ->data($qrData)
+            ->encoding(new Encoding('UTF-8'))
+            ->size(300)
+            ->margin(10)
+            ->build();
+
+        // Simpan ke storage
+        $filename = 'qrcodes/qr_' . $registrasi->id . '.png';
+        Storage::disk('public')->put($filename, $result->getString());
+
+        $registrasi->qr_code_path = $filename;
         $registrasi->save();
 
-        return back()->with('success', 'Status pembayaran berhasil diperbarui menjadi Lunas.');
+        return back()->with('success', 'Status pembayaran berhasil diperbarui menjadi Lunas dan QR code dibuat.');
     }
-
+    
     public function tolakPembayaran($id)
     {
         $data = RegistrasiEvent::findOrFail($id);

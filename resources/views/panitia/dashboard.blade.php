@@ -37,8 +37,8 @@
             </a>
         </div>
 
-        <!-- Event List -->
-        @if($events->count())
+       <!-- Event List -->
+        @if ($events->count())
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                 @foreach ($events as $event)
                     <div class="bg-gray-800 rounded-lg shadow-md overflow-hidden">
@@ -46,9 +46,9 @@
                             <img src="{{ asset('storage/' . ltrim($event->poster_event, '/')) }}"
                                 alt="Poster Event" class="w-full h-48 object-cover">
                         @elseif ($event->poster_event && Str::endsWith(strtolower($event->poster_event), '.pdf'))
-                            <div class="w-full h-48 bg-gray-700 flex items-center justify-center text-sm text-gray-300">
-                                File PDF Tidak Bisa Ditampilkan
-                            </div>
+                            <iframe src="{{ asset('storage/' . ltrim($event->poster_event, '/')) }}#toolbar=0"
+                                class="w-full h-48" frameborder="0">
+                            </iframe>
                         @else
                             <img src="https://via.placeholder.com/400x200"
                                 alt="Poster Event" class="w-full h-48 object-cover">

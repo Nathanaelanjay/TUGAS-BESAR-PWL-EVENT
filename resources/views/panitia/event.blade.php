@@ -61,7 +61,6 @@
                 <p class="text-sm text-gray-400 mt-1">Format yang didukung: JPG, PNG, PDF (maks. 2MB)</p>
             </div>
 
-
             <!-- Biaya -->
             <div>
                 <label for="biaya" class="block text-sm font-semibold mb-1">Biaya (Rp)</label>
