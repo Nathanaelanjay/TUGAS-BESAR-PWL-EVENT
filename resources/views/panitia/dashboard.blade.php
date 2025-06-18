@@ -124,30 +124,12 @@
                     
                     <!-- Action Buttons -->
                     <div class="flex flex-col sm:flex-row gap-4 mb-8">
-                        <a href="{{ route('panitia.events.create') }}" class="inline-flex items-center gap-2 bg-white text-purple-600 px-6 py-3 rounded-xl font-semibold hover:bg-purple-50 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-[1.02] animate-pulse-glow">
+                        <a href="{{ route('panitia.event.create') }}" class="inline-flex items-center gap-2 bg-white text-purple-600 px-6 py-3 rounded-xl font-semibold hover:bg-purple-50 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-[1.02] animate-pulse-glow">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
                             </svg>
                             Buat Event Baru
                         </a>
-                        <button class="inline-flex items-center gap-2 bg-white/20 backdrop-blur-sm text-white px-6 py-3 rounded-xl font-semibold hover:bg-white/30 transition-all duration-200">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
-                            </svg>
-                            Lihat Analytics
-                        </button>
-                    </div>
-                    
-                    <div class="flex flex-wrap gap-4">
-                        <div class="bg-white/20 backdrop-blur-sm px-4 py-2 rounded-full text-white font-medium">
-                            🎯 {{ $events->count() }} Active Events
-                        </div>
-                        <div class="bg-white/20 backdrop-blur-sm px-4 py-2 rounded-full text-white font-medium">
-                            👥 247 Total Registrations
-                        </div>
-                        <div class="bg-white/20 backdrop-blur-sm px-4 py-2 rounded-full text-white font-medium">
-                            📈 +32 This Month
-                        </div>
                     </div>
                 </div>
             </div>
@@ -158,7 +140,7 @@
                     <h3 class="text-2xl font-bold text-gray-900">Event yang Dikelola</h3>
                     <div class="flex items-center gap-3">
                         <span class="text-sm text-gray-500 bg-gray-100 px-3 py-1 rounded-full">{{ $events->count() }} Events</span>
-                        <a href="{{ route('panitia.events.create') }}" class="bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white px-4 py-2 rounded-xl text-sm font-medium transition-all duration-200 shadow-md hover:shadow-lg transform hover:scale-[1.02]">
+                        <a href="{{ route('panitia.event.create') }}" class="bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white px-4 py-2 rounded-xl text-sm font-medium transition-all duration-200 shadow-md hover:shadow-lg transform hover:scale-[1.02]">
                             + Buat Event
                         </a>
                     </div>
@@ -187,28 +169,6 @@
                                             </svg>
                                         </div>
                                     @endif
-                                    
-                                    <!-- Price Badge -->
-                                    <div class="absolute top-4 right-4 bg-gradient-to-r from-emerald-500 to-green-600 text-white px-3 py-1 rounded-full text-sm font-semibold shadow-lg">
-                                        @if($event->biaya == 0)
-                                            FREE
-                                        @else
-                                            Rp{{ number_format($event->biaya, 0, ',', '.') }}
-                                        @endif
-                                    </div>
-
-                                    <!-- Status Badge -->
-                                    <div class="absolute top-4 left-4 bg-white/90 backdrop-blur-sm text-gray-700 px-3 py-1 rounded-full text-xs font-medium">
-                                        Active
-                                    </div>
-
-                                    <!-- Admin Badge -->
-                                    <div class="absolute bottom-4 left-4 bg-purple-500/90 backdrop-blur-sm text-white px-3 py-1 rounded-full text-xs font-medium flex items-center gap-1">
-                                        <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
-                                        </svg>
-                                        Managed
-                                    </div>
                                 </div>
 
                                 <!-- Event Content -->
@@ -232,19 +192,6 @@
                                                 </svg>
                                                 <span>{{ \Carbon\Carbon::parse($event->waktu_event)->format('H:i') }} WIB</span>
                                             </div>
-                                            <div class="flex items-center gap-2">
-                                                <svg class="w-4 h-4 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
-                                                </svg>
-                                                <span class="truncate">{{ $event->lokasi }}</span>
-                                            </div>
-                                            <div class="flex items-center gap-2">
-                                                <svg class="w-4 h-4 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
-                                                </svg>
-                                                <span class="truncate">{{ $event->narasumber }}</span>
-                                            </div>
                                         </div>
                                     </div>
 
@@ -263,16 +210,16 @@
                                     </div>
 
                                     <!-- Management Actions -->
-                                    <div class="flex gap-2 pt-2">
-                                        <a href="#" class="flex-1 text-center bg-gray-100 hover:bg-gray-200 text-gray-700 hover:text-gray-900 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200">
-                                            Edit
-                                        </a>
-                                        <a href="#" class="flex-1 text-center bg-blue-100 hover:bg-blue-200 text-blue-700 hover:text-blue-800 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200">
-                                            Peserta
-                                        </a>
-                                        <a href="#" class="flex-1 text-center bg-gradient-to-r from-purple-500 to-indigo-600 hover:from-purple-600 hover:to-indigo-700 text-white px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 shadow-md hover:shadow-lg transform hover:scale-[1.02]">
-                                            Detail
-                                        </a>
+                                    <div class="flex flex-col gap-2 pt-2">
+
+                                        <!-- Tombol Aksi -->
+                                        <div class="flex gap-2">
+
+                                            <a href="{{ route('panitia.event.detail', ['id_event' => $event->id_event]) }}"
+                                            class="flex-1 text-center bg-blue-100 hover:bg-blue-200 text-blue-700 hover:text-blue-900 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200">
+                                                Detail Sesi
+                                            </a>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -290,7 +237,7 @@
                         <p class="text-gray-600 mb-6 max-w-md mx-auto">
                             Mulai buat event pertama Anda untuk komunitas. Event yang menarik akan meningkatkan engagement dan partisipasi.
                         </p>
-                        <a href="{{ route('panitia.events.create') }}" class="inline-flex items-center gap-2 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white px-6 py-3 rounded-xl font-semibold transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-[1.02]">
+                        <a href="{{ route('panitia.event.create') }}" class="inline-flex items-center gap-2 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white px-6 py-3 rounded-xl font-semibold transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-[1.02]">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
                             </svg>

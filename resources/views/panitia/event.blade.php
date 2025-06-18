@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Beautiful Event Management Form</title>
+    <title>Kelola Event</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
@@ -12,332 +12,242 @@
                 extend: {
                     colors: {
                         primary: {
-                            50: '#f3f1ff',
-                            100: '#ebe5ff',
-                            200: '#d9ceff',
-                            300: '#bea6ff',
-                            400: '#9f75ff',
-                            500: '#843dff',
-                            600: '#7916ff',
-                            700: '#6b04fd',
-                            800: '#5a03d4',
-                            900: '#4c05af',
+                            50: '#f0f4ff',
+                            100: '#e0e7ff',
+                            500: '#6366f1',
+                            600: '#4f46e5',
+                            700: '#4338ca',
                         }
                     }
                 }
             }
         }
     </script>
-    <style>
-        .glass-effect {
-            backdrop-filter: blur(16px);
-            background: rgba(255, 255, 255, 0.95);
-        }
-        .input-focus {
-            transition: all 0.3s ease;
-        }
-        .input-focus:focus {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(123, 97, 255, 0.15);
-        }
-        .btn-hover {
-            transition: all 0.3s ease;
-        }
-        .btn-hover:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(123, 97, 255, 0.3);
-        }
-        .file-upload-area {
-            transition: all 0.3s ease;
-        }
-        .file-upload-area:hover {
-            background: rgba(123, 97, 255, 0.05);
-        }
-    </style>
 </head>
-<body class="min-h-screen bg-white">
-    <div class="flex justify-center items-start min-h-screen pt-8 px-4 py-12">
-        <div class="w-full max-w-lg bg-white rounded-2xl shadow-2xl border border-gray-200 overflow-hidden">
-            <!-- Header -->
-            <div class="bg-gradient-to-r from-primary-500 to-primary-600 px-8 py-6">
-                <div class="text-center">
-                    <div class="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4">
+<body class="bg-gray-50 min-h-screen py-8 px-4">
+    <div class="max-w-2xl mx-auto">
+        <!-- Form Container -->
+        <div class="bg-white rounded-2xl shadow-xl overflow-hidden">
+            <!-- Header Section -->
+            <div class="bg-gradient-to-br from-purple-600 via-purple-500 to-indigo-600 px-8 py-12 text-center relative">
+                <!-- Background Pattern -->
+                <div class="absolute inset-0 bg-white/10 backdrop-blur-sm"></div>
+                <div class="absolute inset-0 bg-gradient-to-br from-purple-600/20 to-transparent"></div>
+                
+                <!-- Icon -->
+                <div class="relative z-10 mb-6">
+                    <div class="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mx-auto backdrop-blur-sm">
                         <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3a2 2 0 012-2h4a2 2 0 012 2v4m-6 0h6m-6 0l1 5m5-5l-1 5m-2-5v-4"></path>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
                         </svg>
                     </div>
-                    <h1 class="text-2xl font-bold text-white mb-2">Form Kelola Event</h1>
-                    <p class="text-primary-100 text-sm">Buat event yang menginspirasi dan berkesan</p>
+                </div>
+                
+                <!-- Title -->
+                <div class="relative z-10">
+                    <h1 class="text-3xl font-bold text-white mb-2">Form Kelola Event</h1>
+                    <p class="text-purple-100 text-lg">Buat event yang menginspirasi dan berkesan</p>
                 </div>
             </div>
 
-            <!-- Form -->
+            <!-- Form Section -->
             <div class="px-8 py-8">
-                <form id="eventForm" class="space-y-6">
-                    <!-- Nama Event -->
-                    <div class="space-y-2">
-                        <label for="nama_event" class="block text-sm font-semibold text-gray-700">
-                            <span class="flex items-center gap-2">
-                                <svg class="w-4 h-4 text-primary-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"></path>
-                                </svg>
-                                Nama Event
-                            </span>
-                        </label>
-                        <input type="text" id="nama_event" name="nama_event" required
-                            class="w-full px-4 py-3 bg-white border-2 border-gray-200 rounded-xl focus:outline-none focus:border-primary-500 text-gray-800 input-focus"
-                            placeholder="Masukkan nama event yang menarik">
-                    </div>
+                <form action="{{ route('panitia.event.store') }}" method="POST" enctype="multipart/form-data" class="space-y-6" id="eventForm">
+                    @csrf
 
-                    <!-- Tanggal dan Waktu Event -->
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div class="space-y-2">
-                            <label for="tanggal_event" class="block text-sm font-semibold text-gray-700">
-                                <span class="flex items-center gap-2">
-                                    <svg class="w-4 h-4 text-primary-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3a2 2 0 012-2h4a2 2 0 012 2v4m-6 0h6m-6 0l1 5m5-5l-1 5"></path>
-                                    </svg>
-                                    Tanggal Event
-                                </span>
-                            </label>
-                            <input type="date" id="tanggal_event" name="tanggal_event" required
-                                class="w-full px-4 py-3 bg-white border-2 border-gray-200 rounded-xl focus:outline-none focus:border-primary-500 text-gray-800 input-focus">
-                        </div>
-                        
-                        <div class="space-y-2">
-                            <label for="waktu_event" class="block text-sm font-semibold text-gray-700">
-                                <span class="flex items-center gap-2">
-                                    <svg class="w-4 h-4 text-primary-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                    </svg>
-                                    Waktu Event
-                                </span>
-                            </label>
-                            <input type="time" id="waktu_event" name="waktu_event" required
-                                class="w-full px-4 py-3 bg-white border-2 border-gray-200 rounded-xl focus:outline-none focus:border-primary-500 text-gray-800 input-focus">
-                        </div>
-                    </div>
-
-                    <!-- Lokasi -->
+                    <!-- Event Name -->
                     <div class="space-y-2">
-                        <label for="lokasi" class="block text-sm font-semibold text-gray-700">
-                            <span class="flex items-center gap-2">
-                                <svg class="w-4 h-4 text-primary-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                                </svg>
-                                Lokasi
-                            </span>
+                        <label for="nama_event" class="block text-sm font-semibold text-gray-700 mb-2">
+                            Nama Event <span class="text-red-500">*</span>
                         </label>
-                        <input type="text" id="lokasi" name="lokasi" required
-                            class="w-full px-4 py-3 bg-white border-2 border-gray-200 rounded-xl focus:outline-none focus:border-primary-500 text-gray-800 input-focus"
-                            placeholder="Alamat lengkap venue event">
+                        <input 
+                            type="text" 
+                            id="nama_event"
+                            name="nama_event" 
+                            placeholder="Masukkan nama event yang menarik"
+                            required 
+                            class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200 bg-gray-50 hover:bg-white hover:shadow-sm"
+                        >
                     </div>
 
                     <!-- Poster Event -->
                     <div class="space-y-2">
-                        <label class="block text-sm font-semibold text-gray-700">
-                            <span class="flex items-center gap-2">
-                                <svg class="w-4 h-4 text-primary-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
-                                </svg>
-                                Poster Event
-                                <span class="text-gray-500 font-normal">(opsional)</span>
-                            </span>
+                        <label for="poster_event" class="block text-sm font-semibold text-gray-700 mb-2">
+                            Poster Event <span class="text-gray-500 font-normal">(Opsional)</span>
                         </label>
-                        <div class="border-2 border-dashed border-gray-300 rounded-xl p-6 file-upload-area bg-gray-50/50">
-                            <div class="text-center">
-                                <svg class="mx-auto h-12 w-12 text-gray-400 mb-4" stroke="currentColor" fill="none" viewBox="0 0 48 48">
-                                    <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                                </svg>
-                                
-                                <div id="upload-content">
-                                    <p class="text-gray-600 mb-2">
-                                        <span class="font-medium">Klik untuk upload</span> atau drag and drop
-                                    </p>
-                                    <p class="text-sm text-gray-500">PNG, JPG, PDF hingga 2MB</p>
-                                </div>
-
-                                <div id="file-preview" class="hidden">
-                                    <div class="flex items-center justify-center space-x-2">
-                                        <svg class="w-8 h-8 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                        </svg>
-                                        <div>
-                                            <p id="file-name" class="font-medium text-gray-800"></p>
-                                            <p id="file-size" class="text-sm text-gray-500"></p>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <input type="file" id="poster_event" name="poster_event" accept="image/*,.pdf" class="hidden" onchange="updateFileName(this)">
-                                
-                                <div class="mt-4 flex justify-center space-x-2">
-                                    <button type="button" id="upload-btn"
-                                        onclick="document.getElementById('poster_event').click()"
-                                        class="px-4 py-2 bg-primary-500 text-white rounded-lg hover:bg-primary-600 transition btn-hover">
-                                        Pilih File
-                                    </button>
-                                    <button type="button" id="remove-btn" class="hidden px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition btn-hover">
-                                        Hapus File
-                                    </button>
-                                </div>
-                            </div>
+                        <div class="relative">
+                            <input 
+                                type="file" 
+                                id="poster_event"
+                                name="poster_event" 
+                                accept="image/*,.pdf"
+                                class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200 bg-gray-50 hover:bg-white hover:shadow-sm file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-purple-50 file:text-purple-700 hover:file:bg-purple-100"
+                                onchange="updateFileName(this)"
+                            >
                         </div>
+                        <p class="text-xs text-gray-500 mt-1">Format yang didukung: JPG, PNG, PDF (Maks. 5MB)</p>
                     </div>
 
-                    <!-- Biaya dan Kuota -->
+                    <!-- Date Row -->
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <!-- Start Date -->
                         <div class="space-y-2">
-                            <label for="biaya" class="block text-sm font-semibold text-gray-700">
-                                <span class="flex items-center gap-2">
-                                    <svg class="w-4 h-4 text-primary-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"></path>
-                                    </svg>
-                                    Biaya (Rp)
-                                </span>
+                            <label for="tanggal_mulai" class="block text-sm font-semibold text-gray-700 mb-2">
+                                Tanggal Mulai <span class="text-red-500">*</span>
                             </label>
-                            <input type="number" id="biaya" name="biaya" required min="0"
-                                class="w-full px-4 py-3 bg-white border-2 border-gray-200 rounded-xl focus:outline-none focus:border-primary-500 text-gray-800 input-focus"
-                                placeholder="0">
+                            <input 
+                                type="date" 
+                                id="tanggal_mulai"
+                                name="tanggal_mulai" 
+                                required 
+                                class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200 bg-gray-50 hover:bg-white hover:shadow-sm"
+                            >
                         </div>
 
+                        <!-- End Date -->
                         <div class="space-y-2">
-                            <label for="kuota" class="block text-sm font-semibold text-gray-700">
-                                <span class="flex items-center gap-2">
-                                    <svg class="w-4 h-4 text-primary-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
-                                    </svg>
-                                    Kuota
-                                </span>
+                            <label for="tanggal_selesai" class="block text-sm font-semibold text-gray-700 mb-2">
+                                Tanggal Selesai <span class="text-red-500">*</span>
                             </label>
-                            <input type="number" id="kuota" name="kuota" required min="1"
-                                class="w-full px-4 py-3 bg-white border-2 border-gray-200 rounded-xl focus:outline-none focus:border-primary-500 text-gray-800 input-focus"
-                                placeholder="Maksimal peserta">
+                            <input 
+                                type="date" 
+                                id="tanggal_selesai"
+                                name="tanggal_selesai" 
+                                required 
+                                class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200 bg-gray-50 hover:bg-white hover:shadow-sm"
+                            >
                         </div>
                     </div>
 
-                    <!-- Narasumber -->
+                    <!-- Event Description -->
                     <div class="space-y-2">
-                        <label for="narasumber" class="block text-sm font-semibold text-gray-700">
-                            <span class="flex items-center gap-2">
-                                <svg class="w-4 h-4 text-primary-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
-                                </svg>
-                                Narasumber
-                            </span>
+                        <label for="keterangan_event" class="block text-sm font-semibold text-gray-700 mb-2">
+                            Keterangan Event <span class="text-red-500">*</span>
                         </label>
-                        <input type="text" id="narasumber" name="narasumber" required
-                            class="w-full px-4 py-3 bg-white border-2 border-gray-200 rounded-xl focus:outline-none focus:border-primary-500 text-gray-800 input-focus"
-                            placeholder="Nama pembicara atau narasumber">
+                        <textarea 
+                            id="keterangan_event"
+                            name="keterangan_event" 
+                            rows="4" 
+                            required
+                            placeholder="Deskripsi singkat mengenai event..."
+                            class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200 bg-gray-50 hover:bg-white hover:shadow-sm resize-none"
+                        ></textarea>
+                        <p class="text-xs text-gray-500 mt-1">Jelaskan tujuan, target peserta, dan highlight utama event</p>
                     </div>
 
                     <!-- Submit Button -->
-                    <div class="pt-4">
-                        <button type="submit"
-                            class="w-full bg-gradient-to-r from-primary-500 to-primary-600 hover:from-primary-600 hover:to-primary-700 text-white font-semibold py-4 rounded-xl transition duration-300 btn-hover shadow-lg">
-                            <span class="flex items-center justify-center gap-2">
+                    <div class="pt-6">
+                        <button 
+                            type="submit" 
+                            class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white font-bold py-4 px-8 rounded-xl transition-all duration-300 transform hover:scale-[1.02] hover:shadow-lg focus:outline-none focus:ring-4 focus:ring-purple-500/50 active:scale-95"
+                        >
+                            <span class="flex items-center justify-center space-x-2">
                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                                 </svg>
-                                Simpan Event
+                                <span>Simpan Event</span>
                             </span>
                         </button>
                     </div>
                 </form>
             </div>
         </div>
+
+        <!-- Footer Info -->
+        <div class="text-center mt-8">
+            <p class="text-gray-500 text-sm">
+                Pastikan semua informasi sudah benar sebelum menyimpan event
+            </p>
+        </div>
     </div>
 
     <script>
         function updateFileName(input) {
-            const uploadContent = document.getElementById('upload-content');
-            const filePreview = document.getElementById('file-preview');
-            const fileName = document.getElementById('file-name');
-            const fileSize = document.getElementById('file-size');
-            const uploadBtn = document.getElementById('upload-btn');
-            const removeBtn = document.getElementById('remove-btn');
-
             if (input.files.length > 0) {
                 const file = input.files[0];
                 const sizeInMB = (file.size / 1024 / 1024).toFixed(2);
-
-                // Show file preview
-                uploadContent.classList.add('hidden');
-                filePreview.classList.remove('hidden');
-                fileName.textContent = file.name;
-                fileSize.textContent = `${sizeInMB} MB`;
-
-                // Update buttons
-                uploadBtn.textContent = 'Ganti File';
-                removeBtn.classList.remove('hidden');
-
-                // Add remove functionality
-                removeBtn.onclick = function() {
-                    Swal.fire({
-                        title: 'Hapus file?',
-                        text: 'File yang dipilih akan dihapus dari form.',
-                        icon: 'warning',
-                        showCancelButton: true,
-                        confirmButtonColor: '#ef4444',
-                        cancelButtonColor: '#6b7280',
-                        confirmButtonText: 'Ya, hapus!',
-                        cancelButtonText: 'Batal'
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            // Reset file input
-                            input.value = '';
-                            
-                            // Reset UI
-                            uploadContent.classList.remove('hidden');
-                            filePreview.classList.add('hidden');
-                            uploadBtn.textContent = 'Pilih File';
-                            removeBtn.classList.add('hidden');
-                            
-                            Swal.fire({
-                                icon: 'success',
-                                title: 'File dihapus!',
-                                text: 'File berhasil dihapus dari form.',
-                                confirmButtonColor: '#7c3aed'
-                            });
-                        }
-                    });
-                };
 
                 // Success notification
                 Swal.fire({
                     icon: 'success',
                     title: 'File berhasil dipilih!',
-                    text: `"${file.name}" siap diupload.`,
+                    text: `"${file.name}" (${sizeInMB} MB) siap diupload.`,
                     confirmButtonColor: '#7c3aed',
                     timer: 2000,
-                    timerProgressBar: true
+                    timerProgressBar: true,
+                    showConfirmButton: false
                 });
             }
         }
 
-        // Form submission handler
-        document.getElementById('eventForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            Swal.fire({
-                icon: 'success',
-                title: 'Event berhasil disimpan!',
-                text: 'Event Anda telah berhasil dibuat dan akan segera dipublikasikan.',
-                confirmButtonColor: '#7c3aed',
-                confirmButtonText: 'Tutup'
-            });
-        });
+        // Add some interactive enhancements
+        document.addEventListener('DOMContentLoaded', function() {
+            // Auto-focus first input
+            const firstInput = document.querySelector('input[name="nama_event"]');
+            if (firstInput) {
+                firstInput.focus();
+            }
 
-        // Add input animations
-        document.querySelectorAll('input[type="text"], input[type="number"], input[type="date"], input[type="time"]').forEach(input => {
-            input.addEventListener('focus', function() {
-                this.parentElement.querySelector('label').style.color = '#7c3aed';
-            });
+            // Add loading state to submit button
+            const form = document.querySelector('#eventForm');
+            const submitBtn = document.querySelector('button[type="submit"]');
             
-            input.addEventListener('blur', function() {
-                this.parentElement.querySelector('label').style.color = '#374151';
+            if (form && submitBtn) {
+                form.addEventListener('submit', function(e) {
+                    submitBtn.disabled = true;
+                    submitBtn.innerHTML = `
+                        <span class="flex items-center justify-center space-x-2">
+                            <svg class="animate-spin w-5 h-5" fill="none" viewBox="0 0 24 24">
+                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                            </svg>
+                            <span>Menyimpan...</span>
+                        </span>
+                    `;
+                });
+            }
+
+            // Add input focus animations
+            document.querySelectorAll('input, textarea').forEach(input => {
+                input.addEventListener('focus', function() {
+                    const label = this.parentElement.querySelector('label');
+                    if (label) {
+                        label.style.color = '#7c3aed';
+                    }
+                });
+                
+                input.addEventListener('blur', function() {
+                    const label = this.parentElement.querySelector('label');
+                    if (label) {
+                        label.style.color = '#374151';
+                    }
+                });
             });
+
+            // Date validation
+            const startDateInput = document.getElementById('tanggal_mulai');
+            const endDateInput = document.getElementById('tanggal_selesai');
+
+            if (startDateInput && endDateInput) {
+                startDateInput.addEventListener('change', function() {
+                    endDateInput.min = this.value;
+                    if (endDateInput.value && endDateInput.value < this.value) {
+                        endDateInput.value = this.value;
+                    }
+                });
+
+                endDateInput.addEventListener('change', function() {
+                    if (startDateInput.value && this.value < startDateInput.value) {
+                        Swal.fire({
+                            icon: 'warning',
+                            title: 'Tanggal tidak valid',
+                            text: 'Tanggal selesai tidak boleh lebih awal dari tanggal mulai.',
+                            confirmButtonColor: '#7c3aed'
+                        });
+                        this.value = startDateInput.value;
+                    }
+                });
+            }
         });
     </script>
 </body>

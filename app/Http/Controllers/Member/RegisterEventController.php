@@ -39,20 +39,26 @@ class RegisterEventController extends Controller
             return redirect()->route('member.dashboard')->with('error', 'Kamu sudah mendaftar event ini.');
         }
 
-        // Simpan registrasi
-        RegistrasiEvent::create([
-            'id_user'             => Auth::id(),
-            'id_event'            => $id_event,
-            'nama_lengkap'        => $request->nama_lengkap,
-            'email'               => $request->email,
-            'nomor_telepon'       => $request->nomor_telepon,
-            'instansi'            => $request->instansi,
-            'pekerjaan'           => $request->pekerjaan,
-            'alamat'              => $request->alamat,
-            'tanggal_registrasi'  => now(),
-            'status_pembayaran'   => 1, // default: belum bayar
-        ]);
+        try {
+        // Simpan data ke database
+        $registrasi = new RegistrasiEvent;
+        $registrasi->id_user = Auth::id();
+        $registrasi->id_event = $id_event;
+        $registrasi->nama_lengkap = $request->nama_lengkap;
+        $registrasi->email = $request->email;
+        $registrasi->nomor_telepon = $request->nomor_telepon;
+        $registrasi->instansi = $request->instansi;
+        $registrasi->pekerjaan = $request->pekerjaan;
+        $registrasi->alamat = $request->alamat;
+        $registrasi->tanggal_registrasi = now();
+        $registrasi->status_pembayaran = 1; // default: sudah bayar/aktif (sesuaikan kebutuhan)
 
-        return redirect()->route('member.dashboard')->with('success', 'Registrasi berhasil. Silakan cek status pembayaran di dashboard.');
+        $registrasi->save();
+
+        return redirect()->route('member.dashboard')->with('success', 'Registrasi berhasil!');
+    } catch (\Exception $e) {
+        // Log error ke laravel.log jika perlu: Log::error($e->getMessage());
+        return back()->with('error', 'Gagal menyimpan data: ' . $e->getMessage());
+    }
     }
 }

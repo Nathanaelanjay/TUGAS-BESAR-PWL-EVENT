@@ -8,6 +8,7 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Guest\GuestController;
 use App\Http\Controllers\Panitia\PanitiaController;
 use App\Http\Controllers\Panitia\EventController;
+use App\Http\Controllers\Panitia\SesiController;
 use App\Http\Controllers\Member\DashboardController;
 use App\Http\Controllers\Member\MemberController;
 use App\Http\Controllers\Member\RegisterEventController;
@@ -53,6 +54,9 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/member/registerevent/{id}', [RegisterEventController::class, 'submit'])->name('registerevent.submit');
 });
 Route::get('/member/dashboard', [DashboardController::class, 'index'])->name('member.dashboard');
+Route::post('/member/event/{id_event}/submit', [RegisterEventController::class, 'submit'])->name('member.register.submit');
+Route::post('/member/event/{id}/submit', [RegisterEventController::class, 'submit'])->name('member.register.submit');
+
 
 
 
@@ -75,6 +79,34 @@ Route::get('/panitia/event', function () {
 Route::middleware('auth')->group(function () {
     Route::post('/panitia/event/store', [EventController::class, 'store'])->name('panitia.event.store');
 });
+Route::post('/events', [EventController::class, 'store'])->name('events.store');
+Route::prefix('panitia')->middleware(['auth'])->group(function () {
+    Route::get('/event/create', [EventController::class, 'create'])->name('panitia.event.create');
+    Route::post('/event/store', [EventController::class, 'store'])->name('panitia.event.store');
+});
+Route::get('/panitia/event/{id_event}/sesi/create', [SesiController::class, 'create'])->name('panitia.sesi.create');
+Route::post('/panitia/event/{id_event}/sesi/store', [SesiController::class, 'store'])->name('panitia.sesi.store');
+Route::get('/panitia/dashboard', [EventController::class, 'index'])->name('panitia.dashboard');
+Route::get('/panitia/event/{id_event}/detail', [EventController::class, 'show'])->name('panitia.event.detail');
+Route::get('/panitia/sesi/{id_sesi}/edit', [SesiController::class, 'edit'])->name('panitia.sesi.edit');
+Route::delete('/panitia/sesi/{id_sesi}/delete', [SesiController::class, 'destroy'])->name('panitia.sesi.destroy');
+Route::get('/panitia/event', [EventController::class, 'index'])->name('panitia.event.index');
+Route::get('/panitia/event', [EventController::class, 'index'])->name('panitia.event.index');
+
+Route::prefix('panitia')->name('panitia.')->group(function () {
+    Route::get('/dashboard', [EventController::class, 'index'])->name('dashboard');
+
+    // create event
+    Route::get('/event/create', [EventController::class, 'create'])->name('event.create');
+
+    // simpan event
+    Route::post('/event/store', [EventController::class, 'store'])->name('event.store');
+
+    // detail event
+    Route::get('/event/{id_event}', [EventController::class, 'show'])->name('event.detail');
+});
+Route::get('/panitia/event/{id_event}', [EventController::class, 'show'])->name('panitia.detail_event');
+
 
 // Admin routes
 Route::get('/admin/dashboard', function () {

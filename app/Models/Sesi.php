@@ -27,10 +27,10 @@ class Sesi extends Model
     ];
 
     protected $casts = [
-        'tanggal_sesi' => 'date',
-        'waktu_mulai' => 'datetime:H:i:s',
-        'waktu_selesai' => 'datetime:H:i:s',
-        'harga_sesi' => 'decimal:2',
+        'tanggal_sesi'   => 'date',
+        'waktu_mulai'    => 'string', // karena tipe di DB adalah TIME
+        'waktu_selesai'  => 'string', // atau bisa 'datetime' jika ingin parsing sebagai Carbon
+        'harga_sesi'     => 'decimal:2',
     ];
 
     // Relasi ke Event
@@ -45,3 +45,4 @@ class Sesi extends Model
         return $this->hasMany(Presensi::class, 'id_sesi');
     }
 }
+

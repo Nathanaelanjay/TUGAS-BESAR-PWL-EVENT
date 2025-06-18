@@ -16,15 +16,14 @@ class RegistrasiEvent extends Model
     protected $fillable = [
         'id_user',
         'id_event',
-        'tanggal_registrasi',
-        'status_pembayaran',
-        'qr_code_path',
         'nama_lengkap',
         'email',
         'nomor_telepon',
         'instansi',
         'pekerjaan',
         'alamat',
+        'tanggal_registrasi',
+        'status_pembayaran',
     ];
 
     protected function casts(): array

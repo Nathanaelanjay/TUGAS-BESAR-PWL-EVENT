@@ -15,10 +15,10 @@ class Event extends Model
 
     protected $fillable = [
         'nama_event',
-        'poster_event',
         'tanggal_mulai',
         'tanggal_selesai',
         'keterangan_event',
+        'poster_event',
     ];
 
     protected function casts(): array
