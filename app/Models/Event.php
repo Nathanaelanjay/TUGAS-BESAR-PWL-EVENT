@@ -15,22 +15,17 @@ class Event extends Model
 
     protected $fillable = [
         'nama_event',
-        'tanggal_event',
-        'waktu_event',
-        'lokasi',
         'poster_event',
-        'biaya',
-        'kuota',
-        'narasumber',
+        'tanggal_mulai',
+        'tanggal_selesai',
+        'keterangan_event',
     ];
 
     protected function casts(): array
     {
         return [
-            'tanggal_event' => 'date',
-            'waktu_event' => 'datetime:H:i:s',
-            'biaya' => 'decimal:2',
-            'created_at' => 'datetime',
+            'tanggal_mulai' => 'date',
+            'tanggal_selesai' => 'date',
         ];
     }
 
@@ -43,5 +38,10 @@ class Event extends Model
     public function presensi()
     {
         return $this->hasMany(Presensi::class, 'id_event');
+    }
+
+    public function sesi()
+    {
+        return $this->hasMany(Sesi::class, 'id_event');
     }
 }

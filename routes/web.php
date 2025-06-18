@@ -91,4 +91,6 @@ Route::get('/timkeuangan/registrasi/{id}', [TimKeuanganController::class, 'showR
     ->name('timkeuangan.registrasi');
 Route::post('/timkeuangan/registrasi/acc/{id}', [TimKeuanganController::class, 'accPembayaran'])->name('timkeuangan.accPembayaran');
 Route::post('/timkeuangan/registrasi/tolak/{id}', [TimKeuanganController::class, 'tolakPembayaran'])->name('timkeuangan.tolakPembayaran');
+Route::get('/timkeuangan/registrasi', [TimKeuanganController::class, 'index'])->name('timkeuangan.registrasi.index');
+
 

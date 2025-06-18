@@ -17,9 +17,14 @@ class RegistrasiEvent extends Model
         'id_user',
         'id_event',
         'tanggal_registrasi',
-        'bukti_pembayaran',
         'status_pembayaran',
         'qr_code_path',
+        'nama_lengkap',
+        'email',
+        'nomor_telepon',
+        'instansi',
+        'pekerjaan',
+        'alamat',
     ];
 
     protected function casts(): array

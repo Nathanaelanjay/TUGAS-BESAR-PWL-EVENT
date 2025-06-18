@@ -10,6 +10,9 @@ use Illuminate\Support\Facades\Auth;
 
 class RegisterEventController extends Controller
 {
+    /**
+     * Tampilkan form registrasi event.
+     */
     public function showForm($id)
     {
         $event = Event::findOrFail($id);
@@ -17,22 +20,39 @@ class RegisterEventController extends Controller
         return view('member.registerevent', compact('event', 'user'));
     }
 
-    public function submit(Request $request, $id)
+    /**
+     * Proses submit form registrasi event.
+     */
+    public function submit(Request $request, $id_event)
     {
         $request->validate([
-            'bukti_pembayaran' => 'required|file|mimes:jpg,jpeg,png,pdf|max:2048',
+            'nama_lengkap'    => 'required|string|max:100',
+            'email'           => 'required|email|max:100',
+            'nomor_telepon'   => 'required|string|max:20',
+            'instansi'        => 'required|string|max:100',
+            'pekerjaan'       => 'required|string|max:50',
+            'alamat'          => 'required|string|max:255',
         ]);
 
-        $buktiPath = $request->file('bukti_pembayaran')->store('bukti_pembayaran', 'public');
+        // Cek apakah user sudah mendaftar event ini
+        if (RegistrasiEvent::where('id_user', Auth::id())->where('id_event', $id_event)->exists()) {
+            return redirect()->route('member.dashboard')->with('error', 'Kamu sudah mendaftar event ini.');
+        }
 
+        // Simpan registrasi
         RegistrasiEvent::create([
-            'id_user' => Auth::id(),
-            'id_event' => $id,
-            'tanggal_registrasi' => now(),
-            'bukti_pembayaran' => $buktiPath,
-            'status_pembayaran' => 1,
+            'id_user'             => Auth::id(),
+            'id_event'            => $id_event,
+            'nama_lengkap'        => $request->nama_lengkap,
+            'email'               => $request->email,
+            'nomor_telepon'       => $request->nomor_telepon,
+            'instansi'            => $request->instansi,
+            'pekerjaan'           => $request->pekerjaan,
+            'alamat'              => $request->alamat,
+            'tanggal_registrasi'  => now(),
+            'status_pembayaran'   => 1, // default: belum bayar
         ]);
 
-        return back()->with('success_redirect', 'Registrasi berhasil dikirim.');
+        return redirect()->route('member.dashboard')->with('success', 'Registrasi berhasil. Silakan cek status pembayaran di dashboard.');
     }
 }
