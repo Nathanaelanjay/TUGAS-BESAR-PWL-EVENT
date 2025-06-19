@@ -24,12 +24,12 @@ CREATE TABLE IF NOT EXISTS `event`.`events` (
   `id_event` INT NOT NULL AUTO_INCREMENT,
   `nama_event` VARCHAR(150) NULL DEFAULT NULL,
   `poster_event` VARCHAR(255) NULL DEFAULT NULL,
-  `tanggal_mulai` DATE NULL DEFAULT NULL,
-  `tanggal_selesai` DATE NULL DEFAULT NULL,
+  `tanggal_mulai` DATETIME NULL DEFAULT NULL,
+  `tanggal_selesai` DATETIME NULL DEFAULT NULL,
   `keterangan_event` VARCHAR(45) NULL DEFAULT NULL,
   PRIMARY KEY (`id_event`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 50
+AUTO_INCREMENT = 52
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 
@@ -59,9 +59,9 @@ CREATE TABLE IF NOT EXISTS `event`.`users` (
   `role` VARCHAR(50) NULL DEFAULT NULL,
   `created_at` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id_user`),
-  UNIQUE INDEX `email` (`email` ASC) VISIBLE)
+  UNIQUE INDEX `email` (`email` ASC) )
 ENGINE = InnoDB
-AUTO_INCREMENT = 12
+AUTO_INCREMENT = 13
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 
@@ -82,12 +82,13 @@ CREATE TABLE IF NOT EXISTS `event`.`sesi` (
   `harga_sesi` DECIMAL(10,2) NULL DEFAULT NULL,
   `sesi` INT NULL DEFAULT NULL,
   PRIMARY KEY (`id_sesi`),
-  INDEX `id_event` (`id_event` ASC) VISIBLE,
+  INDEX `id_event` (`id_event` ASC) ,
   CONSTRAINT `sesi_ibfk_1`
     FOREIGN KEY (`id_event`)
     REFERENCES `event`.`events` (`id_event`)
     ON DELETE CASCADE)
 ENGINE = InnoDB
+AUTO_INCREMENT = 13
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 
@@ -102,9 +103,9 @@ CREATE TABLE IF NOT EXISTS `event`.`presensi` (
   `id_sesi` INT NULL DEFAULT NULL,
   `waktu_hadir` DATETIME NULL DEFAULT NULL,
   PRIMARY KEY (`id_presensi`),
-  INDEX `id_user` (`id_user` ASC) VISIBLE,
-  INDEX `id_event` (`id_event` ASC) VISIBLE,
-  INDEX `presensi_ibfk_3` (`id_sesi` ASC) VISIBLE,
+  INDEX `id_user` (`id_user` ASC) ,
+  INDEX `id_event` (`id_event` ASC) ,
+  INDEX `presensi_ibfk_3` (`id_sesi` ASC) ,
   CONSTRAINT `presensi_ibfk_1`
     FOREIGN KEY (`id_user`)
     REFERENCES `event`.`users` (`id_user`)
@@ -139,9 +140,15 @@ CREATE TABLE IF NOT EXISTS `event`.`registrasi_event` (
   `bukti_pembayaran` VARCHAR(255) NULL DEFAULT NULL,
   `status_pembayaran` INT NULL DEFAULT '1',
   `qr_code_path` VARCHAR(255) NULL DEFAULT NULL,
+  `id_sesi` INT NULL DEFAULT NULL,
   PRIMARY KEY (`id_registrasi`),
-  INDEX `id_user` (`id_user` ASC) VISIBLE,
-  INDEX `id_event` (`id_event` ASC) VISIBLE,
+  INDEX `id_user` (`id_user` ASC) ,
+  INDEX `id_event` (`id_event` ASC) ,
+  INDEX `fk_registrasi_sesi` (`id_sesi` ASC) ,
+  CONSTRAINT `fk_registrasi_sesi`
+    FOREIGN KEY (`id_sesi`)
+    REFERENCES `event`.`sesi` (`id_sesi`)
+    ON DELETE SET NULL,
   CONSTRAINT `registrasi_event_ibfk_1`
     FOREIGN KEY (`id_user`)
     REFERENCES `event`.`users` (`id_user`)
@@ -151,7 +158,7 @@ CREATE TABLE IF NOT EXISTS `event`.`registrasi_event` (
     REFERENCES `event`.`events` (`id_event`)
     ON DELETE CASCADE)
 ENGINE = InnoDB
-AUTO_INCREMENT = 21
+AUTO_INCREMENT = 23
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 
@@ -165,7 +172,7 @@ CREATE TABLE IF NOT EXISTS `event`.`sertifikat` (
   `file_sertifikat` VARCHAR(255) NULL DEFAULT NULL,
   `uploaded_at` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id_sertifikat`),
-  INDEX `id_presensi` (`id_presensi` ASC) VISIBLE,
+  INDEX `id_presensi` (`id_presensi` ASC) ,
   CONSTRAINT `sertifikat_ibfk_1`
     FOREIGN KEY (`id_presensi`)
     REFERENCES `event`.`presensi` (`id_presensi`)
@@ -186,8 +193,8 @@ CREATE TABLE IF NOT EXISTS `event`.`sessions` (
   `payload` LONGTEXT NOT NULL,
   `last_activity` INT NOT NULL,
   PRIMARY KEY (`id`),
-  INDEX `sessions_user_id_index` (`user_id` ASC) VISIBLE,
-  INDEX `sessions_last_activity_index` (`last_activity` ASC) VISIBLE)
+  INDEX `sessions_user_id_index` (`user_id` ASC) ,
+  INDEX `sessions_last_activity_index` (`last_activity` ASC) )
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_unicode_ci;

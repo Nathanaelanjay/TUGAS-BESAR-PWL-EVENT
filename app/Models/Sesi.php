@@ -44,5 +44,11 @@ class Sesi extends Model
     {
         return $this->hasMany(Presensi::class, 'id_sesi');
     }
+
+    public function registrasiEvents()
+    {
+        return $this->hasMany(RegistrasiEvent::class, 'id_sesi');
+    }
+
 }
 

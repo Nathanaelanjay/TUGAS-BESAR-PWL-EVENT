@@ -24,6 +24,8 @@ class RegistrasiEvent extends Model
         'alamat',
         'tanggal_registrasi',
         'status_pembayaran',
+        'bukti_pembayaran',
+        'qr_code_path',
     ];
 
     protected function casts(): array
@@ -43,5 +45,10 @@ class RegistrasiEvent extends Model
     public function event()
     {
         return $this->belongsTo(Event::class, 'id_event');
+    }
+    
+    public function sesi()
+    {
+        return $this->belongsTo(Sesi::class, 'id_sesi');
     }
 }

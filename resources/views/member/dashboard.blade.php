@@ -50,11 +50,17 @@
                     </svg>
                     <span class="font-medium">Dashboard</span>
                 </a>
-                <a href="#" class="flex items-center gap-3 px-4 py-3 text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded-xl transition-all duration-200 group">
+                <a href="{{ route('member.events.index') }}" class="flex items-center gap-3 px-4 py-3 text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded-xl transition-all duration-200 group">
                     <svg class="w-5 h-5 group-hover:text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z"/>
                     </svg>
                     <span class="font-medium">My Events</span>
+                </a>
+                <a href="{{ route('member.presensi.index') }}" class="flex items-center gap-3 px-4 py-3 text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded-xl transition-all duration-200 group">
+                    <svg class="w-5 h-5 group-hover:text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2" ry="2" stroke-width="2" /><path d="M7 8h10M7 12h6" stroke-width="2" stroke-linecap="round" /><circle cx="18" cy="16" r="1.5" fill="currentColor" /></svg>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z"/>
+                    </svg>
+                    <span class="font-medium">Presensi</span>
                 </a>
             </nav>
         </div>
@@ -155,11 +161,6 @@
 
             <!-- Event Cards Section -->
             <div class="space-y-6">
-                <div class="flex items-center justify-between">
-                    <h3 class="text-2xl font-bold text-gray-900">Event Terpopuler</h3>
-                    <span class="text-sm text-gray-500 bg-gray-100 px-3 py-1 rounded-full">24 Events Available</span>
-                </div>
-
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 animate-fade-in-up">
                     @foreach ($events as $event)
                         <div class="group bg-white border border-gray-100 rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:scale-[1.02] hover:-translate-y-1">
@@ -197,7 +198,13 @@
                                             <svg class="w-4 h-4 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
                                             </svg>
-                                            <span class="font-medium">{{ \Carbon\Carbon::parse($event->tanggal_event)->format('d M Y') }}</span>
+                                            <span class="font-medium">{{ \Carbon\Carbon::parse($event->tanggal_mulai)->format('d M Y') }}</span>
+                                        </div>
+                                        <div class="flex items-center gap-2">
+                                            <svg class="w-4 h-4 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                                            </svg>
+                                            <span class="font-medium">{{ \Carbon\Carbon::parse($event->tanggal_selesai)->format('d M Y') }}</span>
                                         </div>
                                     </div>
                                 </div>

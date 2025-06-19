@@ -55,12 +55,6 @@
                         <i class="fas fa-chart-bar w-5"></i>
                         <span class="font-medium">Dashboard</span>
                     </a>
-                    @foreach ($events as $event)
-                    <a href="{{ route('timkeuangan.registrasi', $event->id_event) }}"  class="sidebar-item flex items-center space-x-3 px-4 py-3 rounded-lg text-gray-600 hover:text-gray-800">
-                        <i class="fas fa-users w-5"></i>
-                        <span>Registrations</span>
-                    </a>
-                    @endforeach
                 </nav>
             </div>
             
@@ -167,9 +161,6 @@
                         <!-- Event Image Placeholder -->
                         <div class="h-48 bg-gradient-to-br from-blue-400 to-purple-500 relative">
                             <div class="absolute top-4 left-4">
-                                <span class="bg-green-500 text-white px-3 py-1 rounded-full text-xs font-semibold">
-                                    ACTIVE
-                                </span>
                             </div>
                             <div class="absolute top-4 right-4">
                                 <button class="w-8 h-8 bg-white bg-opacity-20 backdrop-blur-sm rounded-full flex items-center justify-center">
@@ -178,10 +169,6 @@
                             </div>
                             <div class="absolute bottom-4 left-4 right-4">
                                 <h4 class="text-white font-bold text-lg mb-1">{{ $event->nama_event }}</h4>
-                                <div class="flex items-center text-white text-sm opacity-90">
-                                    <i class="fas fa-users mr-2"></i>
-                                    <span>Technology</span>
-                                </div>
                             </div>
                         </div>
                         
@@ -196,11 +183,6 @@
                                     <i class="fas fa-clock text-green-500 w-5 mr-3"></i>
                                     <span>{{ \Carbon\Carbon::parse($event->waktu_event)->format('H:i') }}</span>
                                 </div>
-                                <div class="flex items-center text-gray-600 text-sm">
-                                    <i class="fas fa-map-marker-alt text-red-500 w-5 mr-3"></i>
-                                    <span>{{ $event->lokasi }}</span>
-                                </div>
-
                             </div>
                             
                             <!-- Action Buttons -->
@@ -235,7 +217,6 @@
             </div>
         </div>
     </div>
-
     <script>
         // Update current time
         function updateTime() {

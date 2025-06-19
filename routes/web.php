@@ -12,7 +12,10 @@ use App\Http\Controllers\Panitia\SesiController;
 use App\Http\Controllers\Member\DashboardController;
 use App\Http\Controllers\Member\MemberController;
 use App\Http\Controllers\Member\RegisterEventController;
+use App\Http\Controllers\Member\MemberEventController;
+use App\Http\Controllers\Member\MemberPresensiController;
 use App\Http\Controllers\TimKeuangan\TimKeuanganController;
+use App\Http\Controllers\Admin\AdminController;
 
 
 // Redirect root to login
@@ -56,8 +59,19 @@ Route::middleware(['auth'])->group(function () {
 Route::get('/member/dashboard', [DashboardController::class, 'index'])->name('member.dashboard');
 Route::post('/member/event/{id_event}/submit', [RegisterEventController::class, 'submit'])->name('member.register.submit');
 Route::post('/member/event/{id}/submit', [RegisterEventController::class, 'submit'])->name('member.register.submit');
+Route::get('/member/events', [MemberEventController::class, 'index'])->name('member.events.index');
 
-
+Route::get('/member/events', [MemberEventController::class, 'index']);
+Route::get('/member/event/{id_event}', [MemberEventController::class, 'show'])
+    ->name('member.event.detail');
+Route::get('/member/events', [MemberEventController::class, 'index'])->name('member.events.index');
+Route::post('/member/event/{id_event}/upload-bukti', [MemberEventController::class, 'uploadBukti'])->name('member.event.upload_bukti');
+Route::post('/member/event/{id_event}/upload-bukti', [MemberEventController::class, 'uploadBukti'])->name('member.event.upload_bukti');
+Route::delete('/member/event/{id_event}/delete-bukti', [MemberEventController::class, 'deleteBukti'])->name('member.event.delete_bukti');
+Route::middleware(['auth'])->prefix('member')->name('member.')->group(function () {
+    Route::get('/presensi', [MemberPresensiController::class, 'index'])->name('presensi.index');
+});
+Route::get('/presensi/scan/{token}', [MemberPresensiController::class, 'scan'])->name('presensi.scan');
 
 
 // Panitia routes
@@ -92,7 +106,6 @@ Route::get('/panitia/sesi/{id_sesi}/edit', [SesiController::class, 'edit'])->nam
 Route::delete('/panitia/sesi/{id_sesi}/delete', [SesiController::class, 'destroy'])->name('panitia.sesi.destroy');
 Route::get('/panitia/event', [EventController::class, 'index'])->name('panitia.event.index');
 Route::get('/panitia/event', [EventController::class, 'index'])->name('panitia.event.index');
-
 Route::prefix('panitia')->name('panitia.')->group(function () {
     Route::get('/dashboard', [EventController::class, 'index'])->name('dashboard');
 
@@ -106,6 +119,10 @@ Route::prefix('panitia')->name('panitia.')->group(function () {
     Route::get('/event/{id_event}', [EventController::class, 'show'])->name('event.detail');
 });
 Route::get('/panitia/event/{id_event}', [EventController::class, 'show'])->name('panitia.detail_event');
+Route::prefix('panitia')->middleware('auth')->group(function () {
+    Route::get('/presensi', [\App\Http\Controllers\Panitia\PanitiaPresensiController::class, 'index'])->name('panitia.presensi.index');
+    Route::post('/presensi/{id_presensi}/upload-sertifikat', [\App\Http\Controllers\Panitia\PanitiaPresensiController::class, 'uploadSertifikat'])->name('panitia.presensi.upload');
+});
 
 
 // Admin routes
@@ -125,4 +142,9 @@ Route::post('/timkeuangan/registrasi/acc/{id}', [TimKeuanganController::class, '
 Route::post('/timkeuangan/registrasi/tolak/{id}', [TimKeuanganController::class, 'tolakPembayaran'])->name('timkeuangan.tolakPembayaran');
 Route::get('/timkeuangan/registrasi', [TimKeuanganController::class, 'index'])->name('timkeuangan.registrasi.index');
 
-
+Route::get('/admin/register', [AdminController::class, 'showRegisterForm'])->name('admin.register');
+Route::post('/admin/register', [AdminController::class, 'register'])->name('admin.register.submit');
+Route::get('/admin', [AdminController::class, 'index'])->name('admin.dashboard');
+Route::get('/admin/register', [AdminController::class, 'showRegisterForm'])->name('admin.showRegisterForm');
+Route::post('/admin/register', [AdminController::class, 'register'])->name('admin.register');
+Route::get('/admin/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');

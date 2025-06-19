@@ -9,6 +9,7 @@ use Endroid\QrCode\Builder\Builder;
 use Endroid\QrCode\Encoding\Encoding;
 use Endroid\QrCode\Writer\PngWriter;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 
 class TimKeuanganController extends Controller
@@ -32,10 +33,13 @@ class TimKeuanganController extends Controller
         $registrasi = RegistrasiEvent::findOrFail($id);
         $registrasi->status_pembayaran = 2;
 
-        // Generate QR code content
-        $qrData = url('/presensi/' . $registrasi->id);
+        // Generate token jika belum ada
+        if (!$registrasi->scan_token) {
+            $registrasi->scan_token = Str::uuid();
+        }
 
-        // Buat QR code
+        $qrData = url('/presensi/scan/' . $registrasi->scan_token);
+
         $result = Builder::create()
             ->writer(new PngWriter())
             ->data($qrData)
@@ -44,7 +48,6 @@ class TimKeuanganController extends Controller
             ->margin(10)
             ->build();
 
-        // Simpan ke storage
         $filename = 'qrcodes/qr_' . $registrasi->id . '.png';
         Storage::disk('public')->put($filename, $result->getString());
 
