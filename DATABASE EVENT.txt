@@ -1,0 +1,122 @@
+CREATE DATABASE IF NOT EXISTS event;
+USE event;
+
+-- TABLE EVENTS
+CREATE TABLE events (
+    id_event INT AUTO_INCREMENT PRIMARY KEY,
+    nama_event VARCHAR(150),
+    poster_event VARCHAR(255),
+    tanggal_mulai DATETIME,
+    tanggal_selesai DATETIME,
+    keterangan_event VARCHAR(45)
+);
+
+-- TABLE USERS
+CREATE TABLE users (
+    id_user INT AUTO_INCREMENT PRIMARY KEY,
+    nama VARCHAR(100),
+    email VARCHAR(100) UNIQUE,
+    password VARCHAR(255),
+    role VARCHAR(50),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- TABLE SESI
+CREATE TABLE sesi (
+    id_sesi INT AUTO_INCREMENT PRIMARY KEY,
+    id_event INT NOT NULL,
+    nama_sesi VARCHAR(150),
+    tanggal_sesi DATE,
+    waktu_mulai TIME,
+    waktu_selesai TIME,
+    lokasi_sesi VARCHAR(255),
+    narasumber_sesi VARCHAR(255),
+    kuota_sesi INT,
+    harga_sesi DECIMAL(10,2),
+    sesi INT,
+
+    FOREIGN KEY (id_event)
+        REFERENCES events(id_event)
+        ON DELETE CASCADE
+);
+
+-- TABLE PRESENSI
+CREATE TABLE presensi (
+    id_presensi INT AUTO_INCREMENT PRIMARY KEY,
+    id_user INT,
+    id_event INT,
+    id_sesi INT,
+    waktu_hadir DATETIME,
+
+    FOREIGN KEY (id_user)
+        REFERENCES users(id_user)
+        ON DELETE CASCADE,
+
+    FOREIGN KEY (id_event)
+        REFERENCES events(id_event)
+        ON DELETE CASCADE,
+
+    FOREIGN KEY (id_sesi)
+        REFERENCES sesi(id_sesi)
+        ON DELETE SET NULL
+);
+
+-- TABLE REGISTRASI EVENT
+CREATE TABLE registrasi_event (
+    id_registrasi INT AUTO_INCREMENT PRIMARY KEY,
+    id_user INT,
+    id_event INT,
+    nama_lengkap VARCHAR(100),
+    email VARCHAR(100),
+    nomor_telepon VARCHAR(20),
+    instansi VARCHAR(100),
+    pekerjaan VARCHAR(50),
+    alamat TEXT,
+    tanggal_registrasi TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    bukti_pembayaran VARCHAR(255),
+    status_pembayaran INT DEFAULT 1,
+    qr_code_path VARCHAR(255),
+    scan_token VARCHAR(255) UNIQUE,
+    id_sesi INT,
+
+    FOREIGN KEY (id_user)
+        REFERENCES users(id_user)
+        ON DELETE CASCADE,
+
+    FOREIGN KEY (id_event)
+        REFERENCES events(id_event)
+        ON DELETE CASCADE,
+
+    FOREIGN KEY (id_sesi)
+        REFERENCES sesi(id_sesi)
+        ON DELETE SET NULL
+);
+
+-- TABLE SERTIFIKAT
+CREATE TABLE sertifikat (
+    id_sertifikat INT AUTO_INCREMENT PRIMARY KEY,
+    id_presensi INT,
+    file_sertifikat VARCHAR(255),
+    uploaded_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+    FOREIGN KEY (id_presensi)
+        REFERENCES presensi(id_presensi)
+        ON DELETE CASCADE
+);
+
+-- TABLE SESSIONS
+CREATE TABLE sessions (
+    id VARCHAR(255) PRIMARY KEY,
+    user_id BIGINT UNSIGNED,
+    ip_address VARCHAR(45),
+    user_agent TEXT,
+    payload LONGTEXT NOT NULL,
+    last_activity INT NOT NULL
+);
+
+-- TABLE MIGRATIONS
+CREATE TABLE migrations (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    migration VARCHAR(255) NOT NULL,
+    batch INT NOT NULL
+);
